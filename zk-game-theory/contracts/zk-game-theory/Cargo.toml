@@ -1,0 +1,17 @@
+[package]
+name = "zk-game-theory"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+doctest = false
+
+[dependencies]
+soroban-sdk = { workspace = true, features = ["alloc"] }
+ultrahonk_soroban_verifier = { git = "https://github.com/yugocabrio/ultrahonk-rust-verifier.git", default-features = false }
+
+
+[dev-dependencies]
+soroban-sdk = { workspace = true, features = ["testutils"] }
