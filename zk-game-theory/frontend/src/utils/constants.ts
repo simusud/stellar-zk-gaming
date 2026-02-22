@@ -23,10 +23,21 @@ function contractEnvKey(crateName: string): string {
 }
 
 export function getContractId(crateName: string): string {
+  // 1. Check runtime config (injected via <script> or global)
   const runtimeId = runtimeConfig?.contractIds?.[crateName];
   if (runtimeId) return runtimeId;
+
+  // 2. Check environment variables
   const env = import.meta.env as unknown as Record<string, string>;
-  return env[contractEnvKey(crateName)] || '';
+  const envId = env[contractEnvKey(crateName)];
+  if (envId) return envId;
+
+  // 3. Specific fallback for zk-game-theory to make deployment easier if VITE_ prefix is missed
+  if (crateName === 'zk-game-theory' && env.VITE_ZK_GAME_THEORY_CONTRACT_ID) {
+    return env.VITE_ZK_GAME_THEORY_CONTRACT_ID;
+  }
+
+  return '';
 }
 
 export function getAllContractIds(): Record<string, string> {

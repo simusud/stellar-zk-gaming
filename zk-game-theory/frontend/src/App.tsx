@@ -14,6 +14,15 @@ export default function App() {
   const hasContract = contractId && contractId !== 'YOUR_CONTRACT_ID';
   const devReady = isDevModeAvailable();
 
+  // Debugging log for Vercel deployment
+  if (!devReady && import.meta.env.PROD) {
+    console.warn('Dev Mode Check:', {
+      hasPlayer1Secret: !!import.meta.env.VITE_DEV_PLAYER1_SECRET,
+      hasPlayer2Secret: !!import.meta.env.VITE_DEV_PLAYER2_SECRET,
+      hasContractId: !!contractId
+    });
+  }
+
   return (
     <Layout title={GAME_TITLE} subtitle={GAME_TAGLINE}>
       {!hasContract ? (
